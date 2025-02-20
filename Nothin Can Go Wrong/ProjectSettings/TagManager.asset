@@ -52,5 +52,11 @@ TagManager:
   - name: Audience
     uniqueID: 3824426135
     locked: 0
+  - name: Cortinas
+    uniqueID: 67098657
+    locked: 0
+  - name: AnimationChars
+    uniqueID: 2139791751
+    locked: 0
   m_RenderingLayers:
   - Default

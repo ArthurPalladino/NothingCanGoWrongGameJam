@@ -19,8 +19,9 @@ public class SpecialistController : MonoBehaviour
 
     [SerializeField] GameObject cortinaEsquerda;
     [SerializeField] GameObject cortinaDireita;
+    
     [SerializeField] Light2D holofote;
-
+    [SerializeField] GameObject gameScene;
     float originalNivelLuz;
 
     Vector2 CortinaEsqOriginalPos;
@@ -86,7 +87,7 @@ public class SpecialistController : MonoBehaviour
     void Update()
     {        
         if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.KeypadEnter)) 
-        && DialogSystem.Instance.isTalking == false) {
+        && DialogSystem.Instance.isTalking == false && !PlaySettingsController.InGame) {
             NextDialog();
         }
     }
@@ -129,7 +130,12 @@ public class SpecialistController : MonoBehaviour
         }
         sequence.Play();
         Opened=!Opened;
+        if(Opened){
+            gameScene.SetActive(true);
+            PlaySettingsController.InGame=true;
+        }
         yield return new WaitForSeconds(sequence.Duration(true));
+        
 
     }
 

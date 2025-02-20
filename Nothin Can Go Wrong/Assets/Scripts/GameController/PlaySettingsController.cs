@@ -6,6 +6,8 @@ public static class PlaySettingsController
     public static Clothes choosedClothes {get;set;}
     public static Themes choosedTheme {get;set;}
     public static Scenes choosedScene {get;set;}
+
+    public static bool InGame=false;
     public static Specialist SetupSpecialist(){
         Specialist specialistToReturn = new Specialist();
         specialistToReturn.Setup();
