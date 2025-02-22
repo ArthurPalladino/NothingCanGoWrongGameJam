@@ -29,6 +29,9 @@ public class SpecialistController : MonoBehaviour
     int curPhrase=0;
     bool endDialog=false,Opened=false;
 
+    bool canJumpDialog=false;
+
+
 
     void RestartPhrases(){
         phrases = new List<string>();
@@ -42,6 +45,7 @@ public class SpecialistController : MonoBehaviour
         
 
     }
+
 
     void Awake()
     {   
@@ -62,8 +66,10 @@ public class SpecialistController : MonoBehaviour
         specialistPhrases.Add(this.Specialist.SceneString);
         DialogSystem.Instance.SetActive(true);
         yield return DialogSystem.Instance.TypeDialog(phrases[curPhrase]); 
+        canJumpDialog=true;
         
     }
+
 
     IEnumerator playCharsAnimation(bool endAnim=false){
         StartCoroutine(char1Animator.playAnimation());
@@ -87,7 +93,10 @@ public class SpecialistController : MonoBehaviour
     void Update()
     {        
         if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.KeypadEnter)) 
-        && DialogSystem.Instance.isTalking == false && !PlaySettingsController.InGame) {
+        && !PlaySettingsController.InGame
+        && !DialogSystem.Instance.isTalking
+        && canJumpDialog
+        ){
             NextDialog();
         }
     }

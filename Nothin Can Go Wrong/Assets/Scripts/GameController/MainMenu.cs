@@ -9,6 +9,7 @@ public class MainMenu : MonoBehaviour
     public void PlayButton()
     {
         nextStateGO.SetActive(true);
+        
         gameObject.SetActive(false);
     }
     public void GoToSettings()

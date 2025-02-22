@@ -14,8 +14,12 @@ public class SubmitAndHandleOptions : MonoBehaviour
 
     [SerializeField] GameObject formGameObject;
 
+
     public Func<IEnumerator> OnEndAction;
     Vector2 originalPos;
+    public bool isPlayingMusic;
+
+    public Sound curMusic;
 
     public static SubmitAndHandleOptions Instance{get;private set;}
 
@@ -27,11 +31,34 @@ public class SubmitAndHandleOptions : MonoBehaviour
     }
     void Start()
     {
-        originalPos=transform.localPosition;
+        originalPos=formGameObject.transform.localPosition;
         submitButton.onClick.AddListener(handleSubmit);
     }
     void handleSubmit(){
         StartCoroutine(SubmitSettings());
+    }
+
+
+    public void playDemoSong(){
+        if(!isPlayingMusic){
+            StartCoroutine(playSong());
+        }
+    }
+    IEnumerator playSong(){
+        Sound song = SoundManager.GetSong(themeOption.options[themeOption.curOption].song_name);
+        Debug.Log(themeOption.options[themeOption.curOption].Description);
+        if(song!=null){
+            isPlayingMusic=true;
+            curMusic=song;
+            SoundManager.Play(song.name);
+            yield return new WaitForSeconds(10);
+            if(curMusic!=null){
+            SoundManager.Stop(song.name);
+            isPlayingMusic=false;
+            curMusic=null;
+            }
+        }
+        
     }
     
     IEnumerator SubmitSettings(){
@@ -45,7 +72,7 @@ public class SubmitAndHandleOptions : MonoBehaviour
     }
     IEnumerator PlayCloseAnimation(){
         var sequence= DOTween.Sequence();
-        sequence.Append(formGameObject.transform.DOLocalMoveY(-500,1f));
+        sequence.Append(formGameObject.transform.DOLocalMoveY(originalPos.y,1f));
         yield return new WaitForSeconds(1);
         SetActive(false);
     }
@@ -55,9 +82,10 @@ public class SubmitAndHandleOptions : MonoBehaviour
     }
 
     
+
     public IEnumerator PlayOpenAnimation(){
         var sequence = DOTween.Sequence();
-        formGameObject.transform.localPosition=new Vector2(formGameObject.transform.localPosition.x,-500);
+        formGameObject.transform.localPosition=new Vector2(formGameObject.transform.localPosition.x,originalPos.y);
         sequence.Append(formGameObject.transform.DOLocalMoveY(0,1f));
         yield return new WaitForSeconds(1);
     }

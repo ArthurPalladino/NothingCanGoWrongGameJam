@@ -44,24 +44,22 @@ public class NoteSpawner : MonoBehaviour
     Sound track;
 
 
-    private void Awake()
-    {
-        SetSong(songName);
 
-        Debug.Log(spn);
-    }
 
     public void SetSong(string songName)
     {
-        Sound music = FindFirstObjectByType<SoundManager>().GetSong(songName);
+        Sound music = SoundManager.GetSong(songName);
         track = music;
+        ScoreController.setCurSound(music);
         bps = music.bpm / 60f;
         spn = 1f / bps;
         tempoTick = spn / 8f;
         Debug.Log(tempoTick);
     }
     void Start()
-    {
+    {   
+        SetSong(songName);
+
     }
 
     float timer = 0;

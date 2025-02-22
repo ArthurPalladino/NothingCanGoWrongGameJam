@@ -1,4 +1,6 @@
 using System.Collections;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class NoteCollider : MonoBehaviour
@@ -25,6 +27,8 @@ public class NoteCollider : MonoBehaviour
     private float holdTimer = 0;
     private bool keyDown = false;
     private KeyCode clickedKey = KeyCode.None;
+
+    [SerializeField] TextMeshProUGUI scoreText;
 
 
 
@@ -83,6 +87,8 @@ public class NoteCollider : MonoBehaviour
 
                 float distance = Mathf.Abs(this.transform.position.x - note.transform.position.x) / spriteRenderer.size.x;
                 StartCoroutine(ColorFeedback(distance));
+                var currentCurr=ScoreController.HandleShortNotes(distance);
+                scoreText.text = ((Mathf.Round((float)currentCurr * 100)) / 100.0).ToString()+"%";
                 Destroy(note.gameObject);
                 note = null;
                 hasNote = false;
@@ -90,6 +96,8 @@ public class NoteCollider : MonoBehaviour
             else if(holdTimer > 0.25f)
             {
                 Debug.Log("longNote");
+                var currentCurr = ScoreController.HandleLongNotes(LongNoteHolder/LongNoteTimer);
+                scoreText.text = ((Mathf.Round((float)currentCurr * 100)) / 100.0).ToString() + "%";
                 LongNoteTimer = 0;
                 LongNoteHolder = 0;
             }
@@ -136,9 +144,18 @@ public class NoteCollider : MonoBehaviour
 
     IEnumerator ColorFeedback(float distance)
     {
-        if (distance <= 0.1) spriteRenderer.color = Color.green;
-        else if (distance <= 0.3) spriteRenderer.color = Color.blue;
-        else if (distance < 2) spriteRenderer.color = Color.yellow;
+        if (distance <= 0.1) 
+        {
+            spriteRenderer.color = Color.green;
+        }
+        else if (distance <= 0.3) 
+        {
+            spriteRenderer.color = Color.blue;
+        }
+        else if (distance < 2) 
+        {
+            spriteRenderer.color = Color.yellow;
+        }
         else spriteRenderer.color = Color.red;
 
         yield return new WaitForSeconds(0.2f);

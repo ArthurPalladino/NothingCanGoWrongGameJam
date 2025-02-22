@@ -11,11 +11,11 @@ public class PlayOption : MonoBehaviour
     [SerializeField] Button leftButton;
     [SerializeField] TextMeshProUGUI optionText;
 
-    [SerializeField] List<Option> options;
+    [SerializeField] public List<Option> options;
 
     [SerializeField] OptionsEnum optionType;
 
-    int curOption=0;
+    public int curOption=0;
 
     void Start()
     {
@@ -24,6 +24,11 @@ public class PlayOption : MonoBehaviour
         leftButton.onClick.AddListener(delegate{NextOption(false);});
     }
     public void NextOption(bool toRight){
+        if(SubmitAndHandleOptions.Instance.isPlayingMusic){
+            SubmitAndHandleOptions.Instance.curMusic.source.Stop();
+            SubmitAndHandleOptions.Instance.isPlayingMusic=false;
+            SubmitAndHandleOptions.Instance.curMusic=null;
+        }
         if(toRight){
             curOption++;
         }
@@ -36,6 +41,7 @@ public class PlayOption : MonoBehaviour
         else if (curOption>options.Count-1){
             curOption=0;
         }
+        Debug.Log(curOption);
         HandleOption();
     }
 
@@ -53,6 +59,8 @@ public class PlayOption : MonoBehaviour
 [Serializable]
 public class Option{
     [SerializeField] public Sprite Sprite;
+    [SerializeField] public string? song_name;
+
     [SerializeField] public string Description;
 
 }
