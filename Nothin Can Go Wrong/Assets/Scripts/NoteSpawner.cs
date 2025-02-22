@@ -78,48 +78,40 @@ public class NoteSpawner : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                float second = timer;
-                curQNote = RegisterNote(KeyCode.Q, second);
+                curQNote = RegisterNote(KeyCode.Q, timer);
             }
             if (Input.GetKeyUp(KeyCode.Q) && curQNote != null) {
-                float second = timer;
-                curQNote.endIndex = second;
+                curQNote.endIndex = Mathf.RoundToInt(timer / tempoTick);
                 curQNote = null;
             }
 
             if (Input.GetKeyDown(KeyCode.W))
             {
-                float second = timer;
-                curWNote = RegisterNote(KeyCode.W, second);
+                curWNote = RegisterNote(KeyCode.W, timer);
             }
             if (Input.GetKeyUp(KeyCode.W) && curWNote != null)
             {
-                float second = timer;
-                curWNote.endIndex = second;
+                curWNote.endIndex = Mathf.RoundToInt(timer / tempoTick);
                 curWNote = null;
             }
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                float second = timer;
-                curENote = RegisterNote(KeyCode.E, second);
+                curENote = RegisterNote(KeyCode.E, timer);
             }
             if (Input.GetKeyUp(KeyCode.E) && curENote != null)
             {
-                float second = timer;
-                curENote.endIndex = second;
+                curENote.endIndex = Mathf.RoundToInt(timer / tempoTick);
                 curENote = null;
             }
 
             if (Input.GetKeyDown(KeyCode.R))
             {
-                float second = timer;
-                curRNote = RegisterNote(KeyCode.R, second);
+                curRNote = RegisterNote(KeyCode.R, timer);
             }
             if (Input.GetKeyUp(KeyCode.R) && curRNote != null)
             {
-                float second = timer;
-                curRNote.endIndex = second;
+                curRNote.endIndex = Mathf.RoundToInt(timer / tempoTick);
                 curRNote = null;
             }
 
@@ -160,12 +152,14 @@ public class NoteSpawner : MonoBehaviour
         {
             songScript.delay = time;
             songScript.speed = 16.45f / time;
+            time = 0;
+            timer = 0;
 
         }
 
         noteTimer n = new noteTimer();
         n.note = key.ToString();
-        n.startIndex = time;
+        n.startIndex = Mathf.RoundToInt(time / tempoTick);
         Debug.Log(n.note.ToString() + " - " + n.startIndex.ToString());
         songScript.notes.Add(n);
         return n;
@@ -257,9 +251,9 @@ public class NoteSpawner : MonoBehaviour
                 {
                     GameObject g = longNotePrefab;
                     LongNoteController script = g.GetComponent<LongNoteController>();
-                    script.speed = 4;
+                    script.speed = songScript.speed;
                     script.key = keyNote;
-                    var size = Mathf.RoundToInt(note.endIndex - note.startIndex + 1);
+                    var size = Mathf.RoundToInt(note.endIndex - note.startIndex + 1)/2;
                     script.size = size;
 
 

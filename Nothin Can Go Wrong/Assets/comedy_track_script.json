@@ -1,1 +1,26 @@
-{"delay":0.13523170351982118,"speed":121.64308166503906,"notes":[{"note":"Q","startIndex":0.13523170351982118,"endIndex":0.291708379983902},{"note":"W","startIndex":0.20988328754901887,"endIndex":0.422151118516922},{"note":"W","startIndex":2.3390696048736574,"endIndex":2.4033868312835695},{"note":"W","startIndex":2.5133554935455324,"endIndex":2.661721706390381},{"note":"W","startIndex":2.7748351097106935,"endIndex":2.8850812911987306},{"note":"W","startIndex":3.0138323307037355,"endIndex":3.1156985759735109},{"note":"W","startIndex":3.4284908771514894,"endIndex":3.5357377529144289},{"note":"W","startIndex":3.6503376960754396,"endIndex":3.7441606521606447},{"note":"E","startIndex":3.7441606521606447,"endIndex":3.872255563735962},{"note":"W","startIndex":3.8319787979125978,"endIndex":3.988548517227173},{"note":"Q","startIndex":3.8427774906158449,"endIndex":3.952514171600342},{"note":"R","startIndex":3.952514171600342,"endIndex":4.08574914932251},{"note":"Q","startIndex":4.0540337562561039,"endIndex":4.215971946716309},{"note":"W","startIndex":4.0540337562561039,"endIndex":4.374382495880127},{"note":"E","startIndex":4.184274196624756,"endIndex":4.312915802001953},{"note":"R","startIndex":4.197057723999023,"endIndex":4.300137996673584},{"note":"Q","startIndex":4.300137996673584,"endIndex":4.374382495880127}]}
+{
+    "delay":2.797149181365967,
+    "speed":7,
+    "notes":[
+        {"note":"Q","startIndex":0,"endIndex":0},
+        {"note":"W","startIndex":7,"endIndex":7},
+        {"note":"Q","startIndex":15,"endIndex":15},
+        {"note":"E","startIndex":23,"endIndex":23},
+        {"note":"R","startIndex":27,"endIndex":27},
+
+        {"note":"Q","startIndex":38,"endIndex":38},
+        {"note":"Q","startIndex":46,"endIndex":46},
+        {"note":"Q","startIndex":54,"endIndex":54},
+
+        {"note":"Q","startIndex":62,"endIndex":62},
+        {"note":"W","startIndex":69,"endIndex":69},
+        
+        {"note":"Q","startIndex":77,"endIndex":85},
+
+        {"note":"E","startIndex":89,"endIndex":89},
+        {"note":"R","startIndex":93,"endIndex":93}
+
+
+    ]
+}
+      
