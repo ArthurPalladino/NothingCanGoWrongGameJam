@@ -90,6 +90,7 @@ public class NoteCollider : MonoBehaviour
             else if(holdTimer > 0.25f)
             {
                 Debug.Log("longNote");
+                Debug.Log(LongNoteTimer + "-" + LongNoteHolder);
                 LongNoteTimer = 0;
                 LongNoteHolder = 0;
             }

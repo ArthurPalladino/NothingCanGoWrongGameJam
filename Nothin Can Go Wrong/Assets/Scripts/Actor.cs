@@ -5,7 +5,16 @@ public class Actor : MonoBehaviour
 {
     bool isRunning = false;
 
+    [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] Sprite urban;
+    [SerializeField] Sprite western;
+    [SerializeField] Sprite animal;
+    [SerializeField] Sprite futuristic;
 
+    private void Awake()
+    {
+        spriteRenderer.sprite = urban;
+    }
     void Start()
     {
         Sequence s = DOTween.Sequence();
