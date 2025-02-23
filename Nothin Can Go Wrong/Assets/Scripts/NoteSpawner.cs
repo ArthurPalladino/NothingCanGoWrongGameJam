@@ -63,88 +63,92 @@ public class NoteSpawner : MonoBehaviour
 
 
     float timer = 0;
-
-    void Update()
+    private void OnEnable()
     {
-        timer += Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.Space)){
-            songScript.notes = new List<noteTimer>();
-            createMode = true;
-            track.source.Play();
-            timer = 0;
-        }
-
-        if (createMode){
-
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                curQNote = RegisterNote(KeyCode.Q, timer);
-            }
-            if (Input.GetKeyUp(KeyCode.Q) && curQNote != null) {
-                curQNote.endIndex = Mathf.RoundToInt(timer / tempoTick);
-                curQNote = null;
-            }
-
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-                curWNote = RegisterNote(KeyCode.W, timer);
-            }
-            if (Input.GetKeyUp(KeyCode.W) && curWNote != null)
-            {
-                curWNote.endIndex = Mathf.RoundToInt(timer / tempoTick);
-                curWNote = null;
-            }
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                curENote = RegisterNote(KeyCode.E, timer);
-            }
-            if (Input.GetKeyUp(KeyCode.E) && curENote != null)
-            {
-                curENote.endIndex = Mathf.RoundToInt(timer / tempoTick);
-                curENote = null;
-            }
-
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                curRNote = RegisterNote(KeyCode.R, timer);
-            }
-            if (Input.GetKeyUp(KeyCode.R) && curRNote != null)
-            {
-                curRNote.endIndex = Mathf.RoundToInt(timer / tempoTick);
-                curRNote = null;
-            }
-
-        }
-
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            if (createMode)
-            {
-                timer = 0;
-                foreach (noteTimer n in songScript.notes)
-                {
-                    Debug.Log(n.note + " - " + n.startIndex.ToString());
-
-
-                }
-                string json = JsonUtility.ToJson(songScript);
-                Debug.Log(json);
-
-                File.WriteAllText(Application.dataPath + "/"+songName + "_script.json", json);
-                AssetDatabase.Refresh();
-                //var sr = System.IO.File.CreateText("C:\\Users\\marlo\\Downloads\\" + songName + "_script.json");
-                //sr.WriteLine(json);
-                //sr.Close();
-            }
-            else
-            {
-                StartCoroutine(spawnNotes_tempo());
-            }
-            //string songJson = JsonUtility.ToJson(songScript);
-            //StartCoroutine(spawnNotes());
-        }
+        StartCoroutine(spawnNotes_tempo());
     }
+
+    //void Update()
+    //{
+    //    timer += Time.deltaTime;
+    //    if (Input.GetKeyDown(KeyCode.Space)){
+    //        songScript.notes = new List<noteTimer>();
+    //        createMode = true;
+    //        track.source.Play();
+    //        timer = 0;
+    //    }
+
+    //    if (createMode){
+
+    //        if (Input.GetKeyDown(KeyCode.Q))
+    //        {
+    //            curQNote = RegisterNote(KeyCode.Q, timer);
+    //        }
+    //        if (Input.GetKeyUp(KeyCode.Q) && curQNote != null) {
+    //            curQNote.endIndex = Mathf.RoundToInt(timer / tempoTick);
+    //            curQNote = null;
+    //        }
+
+    //        if (Input.GetKeyDown(KeyCode.W))
+    //        {
+    //            curWNote = RegisterNote(KeyCode.W, timer);
+    //        }
+    //        if (Input.GetKeyUp(KeyCode.W) && curWNote != null)
+    //        {
+    //            curWNote.endIndex = Mathf.RoundToInt(timer / tempoTick);
+    //            curWNote = null;
+    //        }
+
+    //        if (Input.GetKeyDown(KeyCode.E))
+    //        {
+    //            curENote = RegisterNote(KeyCode.E, timer);
+    //        }
+    //        if (Input.GetKeyUp(KeyCode.E) && curENote != null)
+    //        {
+    //            curENote.endIndex = Mathf.RoundToInt(timer / tempoTick);
+    //            curENote = null;
+    //        }
+
+    //        if (Input.GetKeyDown(KeyCode.R))
+    //        {
+    //            curRNote = RegisterNote(KeyCode.R, timer);
+    //        }
+    //        if (Input.GetKeyUp(KeyCode.R) && curRNote != null)
+    //        {
+    //            curRNote.endIndex = Mathf.RoundToInt(timer / tempoTick);
+    //            curRNote = null;
+    //        }
+
+    //    }
+
+    //    if (Input.GetKeyDown(KeyCode.Return))
+    //    {
+    //        if (createMode)
+    //        {
+    //            timer = 0;
+    //            foreach (noteTimer n in songScript.notes)
+    //            {
+    //                Debug.Log(n.note + " - " + n.startIndex.ToString());
+
+
+    //            }
+    //            string json = JsonUtility.ToJson(songScript);
+    //            Debug.Log(json);
+
+    //            File.WriteAllText(Application.dataPath + "/"+songName + "_script.json", json);
+    //            AssetDatabase.Refresh();
+    //            //var sr = System.IO.File.CreateText("C:\\Users\\marlo\\Downloads\\" + songName + "_script.json");
+    //            //sr.WriteLine(json);
+    //            //sr.Close();
+    //        }
+    //        else
+    //        {
+    //            StartCoroutine(spawnNotes_tempo());
+    //        }
+    //        //string songJson = JsonUtility.ToJson(songScript);
+    //        //StartCoroutine(spawnNotes());
+    //    }
+    //}
 
     noteTimer RegisterNote(KeyCode key, float time)
     {

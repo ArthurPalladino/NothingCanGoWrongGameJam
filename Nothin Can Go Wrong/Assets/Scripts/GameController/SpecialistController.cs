@@ -70,12 +70,12 @@ public class SpecialistController : MonoBehaviour
         specialistPhrases.Add(this.Specialist.ClotheString);
         specialistPhrases.Add(this.Specialist.SceneString);
         RestartPhrases();
-        SubmitAndHandleOptions.Instance.OnEndAction = LastDialog;
+        if(SubmitAndHandleOptions.Instance!=null) SubmitAndHandleOptions.Instance.OnEndAction = LastDialog;
         yield return playCharsAnimation();
-        DialogSystem.Instance.SetActive(true);
+        if (DialogSystem.Instance != null)  DialogSystem.Instance.SetActive(true);
         yield return DialogSystem.Instance.TypeDialog(phrases[curPhrase]);
         canJumpDialog = true;
-        SubmitAndHandleOptions.Instance.submitSettings = false;
+        if (SubmitAndHandleOptions.Instance != null) SubmitAndHandleOptions.Instance.submitSettings = false;
 
     }
 

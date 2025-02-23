@@ -92,7 +92,10 @@ public class ScoreController : MonoBehaviour
     public static double HandleLongNotes(double distance){
         
         curScore+=distance;
-        return curScore/curSound.notesCount*100;
+
+        var perce= curScore / curSound.notesCount * 100;
+        return Convert.ToDouble(Math.Round((float)perce, 2));
+
     }
 
     public static void  SetFinalDescription(){
