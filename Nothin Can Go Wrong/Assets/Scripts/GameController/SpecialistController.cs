@@ -32,6 +32,9 @@ public class SpecialistController : MonoBehaviour
     bool canJumpDialog=false;
 
 
+    [SerializeField] SubmitAndHandleOptions submitAndHandleOptions;
+
+
 
     void RestartPhrases(){
         phrases = new List<string>();
@@ -70,7 +73,7 @@ public class SpecialistController : MonoBehaviour
         specialistPhrases.Add(this.Specialist.ClotheString);
         specialistPhrases.Add(this.Specialist.SceneString);
         RestartPhrases();
-        if(SubmitAndHandleOptions.Instance!=null) SubmitAndHandleOptions.Instance.OnEndAction = LastDialog;
+        submitAndHandleOptions.OnEndAction = LastDialog;
         yield return playCharsAnimation();
         if (DialogSystem.Instance != null)  DialogSystem.Instance.SetActive(true);
         yield return DialogSystem.Instance.TypeDialog(phrases[curPhrase]);

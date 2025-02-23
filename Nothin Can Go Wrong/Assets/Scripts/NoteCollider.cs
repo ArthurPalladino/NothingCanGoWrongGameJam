@@ -56,7 +56,16 @@ public class NoteCollider : MonoBehaviour
             }
             if(holdTimer > 0.25f)
             {
-                
+                if (hasLongNote)
+                {
+                    if (LongNoteHolder / LongNoteTimer >= 0.95)spriteRenderer.color = Color.green;
+                    else if (LongNoteHolder / LongNoteTimer >= 0.75) spriteRenderer.color = Color.blue;
+                    else spriteRenderer.color = Color.yellow;
+                }
+                else
+                {
+                    spriteRenderer.color = Color.red;
+                }
                 if(clickedKey == key1) StartCoroutine(key1_stageComponent.LongPress());
                 else if(clickedKey == key2) StartCoroutine(key2_stageComponent.LongPress());
             }
@@ -104,6 +113,7 @@ public class NoteCollider : MonoBehaviour
             else if(holdTimer > 0.25f)
             {
                 Debug.Log("longNote");
+                spriteRenderer.color = Color.white;
                 var currentCurr = ScoreController.HandleLongNotes(LongNoteHolder/LongNoteTimer);
                 scoreText.text = currentCurr.ToString() + "%";
                 LongNoteTimer = 0;
@@ -149,13 +159,7 @@ public class NoteCollider : MonoBehaviour
         if (collision.gameObject.tag == "LongNote") { hasLongNote = false; } 
         
         Destroy(collision.gameObject);
-        Debug.Log(NoteSpawner.remainingNotes);
-        if(NoteSpawner.remainingNotes<=0){
-            Debug.Log("fechando");
-            Invoke("FecharCortinasFinalDaMusica",5);
-            Debug.Log("fechei");
-
-        }
+        
     }
     void FecharCortinasFinalDaMusica(){
         if(CortinasController.Opened){

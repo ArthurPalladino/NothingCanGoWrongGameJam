@@ -58,18 +58,23 @@ public class NoteSpawner : MonoBehaviour
         spn = 1f / bps;
         tempoTick = spn / 8f;
         remainingNotes=music.notesCount;
-        Debug.Log(tempoTick);
     }
 
 
     float timer = 0;
+    bool started = false;
     private void OnEnable()
     {
         StartCoroutine(spawnNotes_tempo());
     }
 
-    //void Update()
-    //{
+    void Update()
+    {
+        if(started && !track.source.isPlaying)
+        {
+            started = false;
+            CortinasController.AbrirCortinas();
+        }
     //    timer += Time.deltaTime;
     //    if (Input.GetKeyDown(KeyCode.Space)){
     //        songScript.notes = new List<noteTimer>();
@@ -148,7 +153,7 @@ public class NoteSpawner : MonoBehaviour
     //        //string songJson = JsonUtility.ToJson(songScript);
     //        //StartCoroutine(spawnNotes());
     //    }
-    //}
+    }
 
     noteTimer RegisterNote(KeyCode key, float time)
     {
@@ -174,16 +179,18 @@ public class NoteSpawner : MonoBehaviour
 
     IEnumerator spawnNotes_tempo()
     {
-        Debug.Log(track.script.text);
 
         songScript = JsonUtility.FromJson<songScript>(track.script.text);
 
         track.source.Play();
+        started = true;
 
 
         tempo = 0;
         Vector2 pos = transform.position;
 
+        if (songName == "horror_track")
+            yield return new WaitForSeconds(5.2f);
 
         while (songScript.notes.Count > 0)
         {
@@ -194,7 +201,7 @@ public class NoteSpawner : MonoBehaviour
                 if (keyNote == KeyCode.R || keyNote == KeyCode.W) pos.y = 3.273f - 0.31f;
                 else pos.y = transform.position.y - 0.31f;
 
-                if (note.endIndex != note.startIndex)
+                if (note.endIndex != note.startIndex && note.endIndex - note.startIndex > 3)
                 {
                     GameObject g = longNotePrefab;
                     LongNoteController script = g.GetComponent<LongNoteController>();

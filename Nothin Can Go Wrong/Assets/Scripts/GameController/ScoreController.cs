@@ -70,6 +70,8 @@ public class ScoreController : MonoBehaviour
     }
 
     public static double HandleShortNotes(float distance){
+        if (float.IsNaN(distance)) distance = 0;
+
         if (distance <= 0.1) 
         {
             curScore+=1;
@@ -90,6 +92,7 @@ public class ScoreController : MonoBehaviour
     }
 
     public static double HandleLongNotes(double distance){
+        if (double.IsNaN(distance)) distance = 0;
         
         curScore+=distance;
 

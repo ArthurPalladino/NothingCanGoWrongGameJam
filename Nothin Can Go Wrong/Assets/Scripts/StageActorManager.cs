@@ -36,6 +36,7 @@ public class StageActorManager : MonoBehaviour, IStageComponent
     {
         LongPressing = true;
         yield return new WaitUntil(() => LongPressing == false);
+        StartCoroutine(Activate(true));
 
 
     }
