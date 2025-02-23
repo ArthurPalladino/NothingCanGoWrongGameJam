@@ -1,21 +1,24 @@
 public enum Themes{
     Comedia,
-    Terror,
-    Romance
+    Romance,
+    Terror
 }
 
 public enum Scenes{
-    Espacial,
+    Cidade,
     Deserto,
     Floresta,
-    Cidade
+    Espacial,
+
+    
 }
 
 public enum Clothes {
-    Futurista,
     Animal,
+
+    Futurista,
+    Padrao,
     Cowboy,
-    Padrao
 }
 
 public enum OptionsEnum{

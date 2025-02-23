@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using System.Collections;
 using System;
+using UnityEditor;
 
 public class SubmitAndHandleOptions : MonoBehaviour
 {
@@ -46,17 +47,16 @@ public class SubmitAndHandleOptions : MonoBehaviour
     }
     IEnumerator playSong(){
         Sound song = SoundManager.GetSong(themeOption.options[themeOption.curOption].song_name);
-        Debug.Log(themeOption.options[themeOption.curOption].Description);
-        if(song!=null){
+        if(song!=null && !isPlayingMusic)
+        {
             isPlayingMusic=true;
             curMusic=song;
             SoundManager.Play(song.name);
-            yield return new WaitForSeconds(10);
-            if(curMusic!=null){
+            yield return new WaitForSeconds(5);
             SoundManager.Stop(song.name);
             isPlayingMusic=false;
             curMusic=null;
-            }
+            
         }
         
     }
@@ -65,7 +65,9 @@ public class SubmitAndHandleOptions : MonoBehaviour
         PlaySettingsController.choosedClothes=(Clothes)clothesOption.getSelectedOption();
         PlaySettingsController.choosedTheme=(Themes)themeOption.getSelectedOption();
         PlaySettingsController.choosedScene=(Scenes)sceneOption.getSelectedOption();
+        NoteSpawner.SetSong(themeOption.options[themeOption.getSelectedOption()].song_name.ToString());
         yield return PlayCloseAnimation();
+        
         if (OnEndAction != null){
             yield return OnEndAction();        
         }

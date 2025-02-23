@@ -11,9 +11,29 @@ public class Actor : MonoBehaviour
     [SerializeField] Sprite animal;
     [SerializeField] Sprite futuristic;
 
-    private void Awake()
+    private void OnEnable()
     {
-        spriteRenderer.sprite = urban;
+        spriteRenderer=GetComponent<SpriteRenderer>();
+        SetActorSprites(PlaySettingsController.choosedClothes);
+            
+        
+    }
+
+
+    public void SetActorSprites(Clothes clothesChoosed){
+        if(clothesChoosed==Clothes.Futurista){
+            spriteRenderer.sprite=futuristic;
+        }
+        else if(clothesChoosed==Clothes.Animal){
+            spriteRenderer.sprite=animal;
+        }
+        else if(clothesChoosed==Clothes.Cowboy){
+            spriteRenderer.sprite=western;
+        }
+        else if(clothesChoosed==Clothes.Padrao){
+            spriteRenderer.sprite=urban;
+        }
+        
     }
     void Start()
     {

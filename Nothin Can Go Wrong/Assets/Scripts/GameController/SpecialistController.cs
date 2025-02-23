@@ -52,22 +52,31 @@ public class SpecialistController : MonoBehaviour
         CortinaEsqOriginalPos=cortinaEsquerda.transform.position;
         CortinaDirOriginalPos=cortinaDireita.transform.position;
         originalNivelLuz=holofote.falloffIntensity;
-        RestartPhrases();
         char1Animator=character1.GetComponent<InitialAnimator>();
         char2Animator=character2.GetComponent<InitialAnimator>();
     }
-    IEnumerator Start()
-    {  
-        SubmitAndHandleOptions.Instance.OnEndAction=LastDialog;
-        yield return playCharsAnimation();
+    void OnEnable()
+    {
+        StartCoroutine(WhenActiveObject());
+        
+    }
+
+    IEnumerator WhenActiveObject()
+    {
+        endDialog = false;
+        curPhrase = 0;
         this.Specialist = PlaySettingsController.SetupSpecialist();
         specialistPhrases.Add(this.Specialist.ThemeString);
         specialistPhrases.Add(this.Specialist.ClotheString);
         specialistPhrases.Add(this.Specialist.SceneString);
+        RestartPhrases();
+        SubmitAndHandleOptions.Instance.OnEndAction = LastDialog;
+        yield return playCharsAnimation();
         DialogSystem.Instance.SetActive(true);
-        yield return DialogSystem.Instance.TypeDialog(phrases[curPhrase]); 
-        canJumpDialog=true;
-        
+        yield return DialogSystem.Instance.TypeDialog(phrases[curPhrase]);
+        canJumpDialog = true;
+        SubmitAndHandleOptions.Instance.submitSettings = false;
+
     }
 
 
@@ -75,7 +84,8 @@ public class SpecialistController : MonoBehaviour
         StartCoroutine(char1Animator.playAnimation());
         yield return char2Animator.playAnimation();
         if(endAnim){
-            yield return AbrirCortinas();
+            CortinasController.AbrirCortinas();
+            gameObject.SetActive(false);
         }
     }
 
@@ -125,28 +135,7 @@ public class SpecialistController : MonoBehaviour
 
             }   
     }
-    IEnumerator AbrirCortinas(){
-        var sequence= DOTween.Sequence();
-        if(!Opened){
-            sequence.Append(cortinaEsquerda.transform.DOLocalMoveX(-14,2f))
-            .Join(cortinaDireita.transform.DOLocalMoveX(14,2f))
-            .Join(DOTween.To(() => holofote.shapeLightFalloffSize, x => holofote.shapeLightFalloffSize = x, 100, 2f));
-        }
-        else{
-            sequence.Append(cortinaEsquerda.transform.DOLocalMoveX(CortinaEsqOriginalPos.x,2f))
-            .Join(cortinaDireita.transform.DOLocalMoveX(CortinaDirOriginalPos.x,2f))
-            .Join(DOTween.To(() => holofote.shapeLightFalloffSize, x => holofote.shapeLightFalloffSize = x, originalNivelLuz, 2f));;        
-        }
-        sequence.Play();
-        Opened=!Opened;
-        if(Opened){
-            gameScene.SetActive(true);
-            PlaySettingsController.InGame=true;
-        }
-        yield return new WaitForSeconds(sequence.Duration(true));
-        
-
-    }
+    
 
     
 }

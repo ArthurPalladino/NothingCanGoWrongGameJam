@@ -22,9 +22,9 @@ public class songScript
 
 public class NoteSpawner : MonoBehaviour
 {
-    float bps = 0;
-    float spn = 0;
-    float tempoTick = 0;
+    static float bps = 0;
+    static float spn = 0;
+    static float tempoTick = 0;
     public bool createMode;
 
     noteTimer curQNote;
@@ -40,27 +40,27 @@ public class NoteSpawner : MonoBehaviour
     [SerializeField] GameObject longNotePrefab;
 
 
-    string songName = "comedy_track";
-    Sound track;
+    static string songName;
+    static Sound track;
+
+    public static int remainingNotes=100;
 
 
 
 
-    public void SetSong(string songName)
+    public static void SetSong(string songToSearch)
     {
-        Sound music = SoundManager.GetSong(songName);
+        Sound music = SoundManager.GetSong(songToSearch);
+        songName = songToSearch;
         track = music;
         ScoreController.setCurSound(music);
         bps = music.bpm / 60f;
         spn = 1f / bps;
         tempoTick = spn / 8f;
+        remainingNotes=music.notesCount;
         Debug.Log(tempoTick);
     }
-    void Start()
-    {   
-        SetSong(songName);
 
-    }
 
     float timer = 0;
 
@@ -165,64 +165,7 @@ public class NoteSpawner : MonoBehaviour
         return n;
     }
 
-    IEnumerator spawnNotes()
-    {
-        Debug.Log(track.script.text);
 
-        songScript = JsonUtility.FromJson<songScript>(track.script.text); 
-        
-        track.source.Play();
-        
-
-        tempo = 0;
-        Vector2 pos = transform.position;
-
-        //stopwatch.Start();
-
-        float time = 0;
-        while (songScript.notes.Count > 0){
-
-            foreach (noteTimer note in songScript.notes.FindAll(x => x.startIndex-songScript.delay <= time)){
-                //if (note.endIndex != note.startIndex)
-                //{
-                //    GameObject g = longNotePrefab;
-                //    LongNoteController script = g.GetComponent<LongNoteController>();
-                //    script.speed = 4;
-                //    script.key = note.note;
-                //    //var size =  note.endIndex - note.startIndex + 1;
-                //    //script.size = size;
-
-                //    if (note.note == KeyCode.R || note.note == KeyCode.W) pos.y = 3.273f - 0.31f;
-                //    else pos.y = transform.position.y - 0.31f;
-
-                //    Instantiate(g, new Vector2(pos.x + size / 2, pos.y), Quaternion.identity);
-                //}
-                //else
-                //{
-                    KeyCode keyNote = (KeyCode)System.Enum.Parse(typeof(KeyCode), note.note, true);
-                    GameObject g = notePrefab;
-                    NoteMovement script = g.GetComponent<NoteMovement>();
-                    script.speed =songScript.speed;
-                    script.key = keyNote;
-
-                    if (keyNote == KeyCode.R || keyNote == KeyCode.W) pos.y = 3.273f - 0.31f;
-                    else pos.y = transform.position.y - 0.31f;
-
-                    Instantiate(g, pos, Quaternion.identity);
-
-                //}
-                songScript.notes.Remove(note);
-
-
-            }
-
-            time += Time.deltaTime;
-            UnityEngine.Debug.Log(time);
-
-            yield return new WaitForSeconds(0);
-        }
-
-    }
 
 
     IEnumerator spawnNotes_tempo()
@@ -259,6 +202,7 @@ public class NoteSpawner : MonoBehaviour
 
 
                     Instantiate(g, new Vector2(pos.x + size / 2, pos.y), Quaternion.identity);
+                    remainingNotes--;
                 }
                 else
                 {
@@ -273,6 +217,7 @@ public class NoteSpawner : MonoBehaviour
 
                 }
                 songScript.notes.Remove(note);
+                remainingNotes--;
 
                 
             }
@@ -280,9 +225,8 @@ public class NoteSpawner : MonoBehaviour
             time += Time.deltaTime;
 
             yield return new WaitForSeconds(tempoTick - time);
-
-
         }
+        
 
     }
 }

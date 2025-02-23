@@ -32,12 +32,12 @@ public class Specialist
 
         }
         //TERROR
-        else if((int)preferredTheme==1){
+        else if((int)preferredTheme==2){
             messageToReturn="<color=#FF0000> crapping his pants</color>";
 
         }
         //ROMANCE
-        else if((int)preferredTheme==2){
+        else if((int)preferredTheme==1){
             messageToReturn="<color=#FF0000> sweet and dramatic</color> things";
         }
         return messageToReturn;
@@ -45,7 +45,7 @@ public class Specialist
     private string GetRandomSceneWord(){
         string messageToReturn="";
         //espacial
-        if((int)preferredScene==0){
+        if((int)preferredScene==3){
             messageToReturn="something <color=#0013ff>outside the earth</color>";
         }
         //deserto
@@ -58,7 +58,7 @@ public class Specialist
             messageToReturn="something more like<color=#0013ff> tarzan or jumanji</color>";
         }
         //cidade
-        else if((int)preferredScene==3){
+        else if((int)preferredScene==0){
             messageToReturn="something more<color=#0013ff> urban and common</color>";
         }
         return messageToReturn;
@@ -67,20 +67,20 @@ public class Specialist
         string messageToReturn="";
         
         //futurista
-        if((int)preferredTheme==0){
+        if((int)preferredClothe == 1){
             messageToReturn="<color=#088900> robots and technological things</color>";
         }
         //animal
-        else if((int)preferredTheme==1){
+        else if((int)preferredClothe == 0){
             messageToReturn="weird things like<color=#088900> furries</color>";
 
         }
         //cowboy
-        else if((int)preferredTheme==2){
+        else if((int)preferredClothe == 3){
             messageToReturn="<color=#088900> the good old western fashion</color>";
         }
         //padrao
-        else if((int)preferredTheme==3){
+        else if((int)preferredClothe == 2){
         messageToReturn="<color=#088900> normal, boring everyday things</color>";
         }
         return messageToReturn;

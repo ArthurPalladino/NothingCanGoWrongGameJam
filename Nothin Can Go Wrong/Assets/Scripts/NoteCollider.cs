@@ -31,7 +31,11 @@ public class NoteCollider : MonoBehaviour
     [SerializeField] TextMeshProUGUI scoreText;
 
 
-
+    private void OnEnable()
+    {
+        scoreText.text = "0.00%";
+        NoteSpawner.remainingNotes = 999;
+    }
     private void Awake()
     {
         key1_stageComponent = Key1_StageComponentObject.GetComponent<IStageComponent>();
@@ -88,16 +92,20 @@ public class NoteCollider : MonoBehaviour
                 float distance = Mathf.Abs(this.transform.position.x - note.transform.position.x) / spriteRenderer.size.x;
                 StartCoroutine(ColorFeedback(distance));
                 var currentCurr=ScoreController.HandleShortNotes(distance);
-                scoreText.text = ((Mathf.Round((float)currentCurr * 100)) / 100.0).ToString()+"%";
+                scoreText.text = currentCurr.ToString()+"%";
                 Destroy(note.gameObject);
+                
                 note = null;
                 hasNote = false;
+                if(NoteSpawner.remainingNotes<=0 && CortinasController.Opened){
+                    CortinasController.AbrirCortinas();
+                }
             }
             else if(holdTimer > 0.25f)
             {
                 Debug.Log("longNote");
                 var currentCurr = ScoreController.HandleLongNotes(LongNoteHolder/LongNoteTimer);
-                scoreText.text = ((Mathf.Round((float)currentCurr * 100)) / 100.0).ToString() + "%";
+                scoreText.text = currentCurr.ToString() + "%";
                 LongNoteTimer = 0;
                 LongNoteHolder = 0;
             }
@@ -139,8 +147,20 @@ public class NoteCollider : MonoBehaviour
     {
         if (collision.gameObject.tag == "Note") hasNote = false;
         if (collision.gameObject.tag == "LongNote") { hasLongNote = false; } 
+        
         Destroy(collision.gameObject);
+        Debug.Log(NoteSpawner.remainingNotes);
+        if(NoteSpawner.remainingNotes<=0){
+            Debug.Log("fechando");
+            Invoke("FecharCortinasFinalDaMusica",5);
+            Debug.Log("fechei");
+
+        }
     }
+    void FecharCortinasFinalDaMusica(){
+        if(CortinasController.Opened){
+        CortinasController.AbrirCortinas();
+    }}
 
     IEnumerator ColorFeedback(float distance)
     {

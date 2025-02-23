@@ -19,14 +19,25 @@ public class StageSceneryManager : MonoBehaviour, IStageComponent
     int curSprite = 0;
 
 
-    private void Awake()
+    private void OnEnable()
     {
-        selectedSprites = forestSprites;
-        sceneSprite.sprite = selectedSprites[0];
+        SetScenery(PlaySettingsController.choosedScene);
     }
 
-    void Update()
-    {
+    void SetScenery(Scenes scenes){
+        if(scenes==Scenes.Cidade){
+            selectedSprites=citySprites;
+        }
+        else if(scenes==Scenes.Deserto){
+            selectedSprites=desertSprites;
+        }
+        else if(scenes==Scenes.Espacial){
+            selectedSprites=spaceSprites;
+        }
+        else if(scenes==Scenes.Floresta){
+            selectedSprites=forestSprites;
+        }
+        sceneSprite.sprite=selectedSprites[0];
 
     }
 

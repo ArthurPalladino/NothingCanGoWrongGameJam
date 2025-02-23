@@ -53,9 +53,7 @@ public class SoundManager : MonoBehaviour
                 if (string.IsNullOrEmpty(www.error))
                 {
                     var nameValues = file.FullName.Split("-");
-                    if (nameValues.Length > 2 && nameValues[2].Contains("comedy"))
-                        //só enquanto só tem a musica de comedia, dps tirar o if^
-                    {
+                    
                         Sound song = new Sound();
                         song.clip = www.GetAudioClip(false, false, AudioType.MPEG);
                         song.name = nameValues[2].Replace(".mp3", "") + "_track";
@@ -64,10 +62,11 @@ public class SoundManager : MonoBehaviour
                         song.notesCount = song.script.text.Split('[')[1].Split("},").Length;
                         song.volume = 100;
                         list.Add(song);
-                    }
+                    
                 }
             }
         }
+        Debug.Log(list.Count);
         sounds = list.ToArray();
         isListSeted = true;
         defineSource();

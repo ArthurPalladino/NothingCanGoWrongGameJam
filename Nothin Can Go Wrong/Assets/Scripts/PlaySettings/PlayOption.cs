@@ -25,7 +25,7 @@ public class PlayOption : MonoBehaviour
     }
     public void NextOption(bool toRight){
         if(SubmitAndHandleOptions.Instance.isPlayingMusic){
-            SubmitAndHandleOptions.Instance.curMusic.source.Stop();
+            SoundManager.Stop(SubmitAndHandleOptions.Instance.curMusic.name);
             SubmitAndHandleOptions.Instance.isPlayingMusic=false;
             SubmitAndHandleOptions.Instance.curMusic=null;
         }
