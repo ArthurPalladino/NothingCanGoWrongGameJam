@@ -1,13 +1,5 @@
 using UnityEngine;
-using UnityEngine.Audio;
 using System;
-using System.IO;
-using Unity.VisualScripting;
-using UnityEngine.Networking;
-using System.Collections;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 [System.Serializable]
 public class Sound
@@ -30,61 +22,54 @@ public class Sound
 public class SoundManager : MonoBehaviour
 {
     public static Sound[] sounds;
+    [SerializeField] Sound[] soundsSerialized;
+
 
     public TextAsset[] textFiles;
 
 
-    public static bool isListSeted=false;
-    void SetSoundList()
+    void Awake()
     {
-        List<Sound> list = new List<Sound>();
-        string path = Application.dataPath + "/Songs";
-        DirectoryInfo info = new DirectoryInfo(path);
-        FileInfo[] files = info.GetFiles("*.mp3");
+        sounds = soundsSerialized;
 
-        foreach (FileInfo file in files)
+        foreach (var sound in sounds)
         {
-            string url = "file://" + file.FullName; 
+            string fs = sound.script.text;
 
-            using (WWW www = new WWW(url))
+            int startIndex = fs.IndexOf("\"notes\":[");
+            if(startIndex==-1) startIndex = fs.IndexOf("\"notes\": [");
+            if (startIndex != -1)
             {
-                while (!www.isDone) { }
+                startIndex += 8;
+                int endIndex = fs.IndexOf("]", startIndex);
 
-                if (string.IsNullOrEmpty(www.error))
+                if (endIndex != -1)
                 {
-                    var nameValues = file.FullName.Split("-");
-                    
-                        Sound song = new Sound();
-                        song.clip = www.GetAudioClip(false, false, AudioType.MPEG);
-                        song.name = nameValues[2].Replace(".mp3", "") + "_track";
-                        song.bpm = Int32.Parse(nameValues[0].Split('\\').Last());
-                        song.script = textFiles.FirstOrDefault(txt => txt.name.Contains(song.name));
-                        song.notesCount = song.script.text.Split('[')[1].Split("},").Length;
-                        song.volume = 100;
-                        list.Add(song);
-                    
+                    string notesContent = fs.Substring(startIndex, endIndex - startIndex);
+                    string[] noteItems = notesContent.Split(new char[] { '{' }, StringSplitOptions.RemoveEmptyEntries);
+                    sound.notesCount = noteItems.Length;
                 }
             }
         }
-        Debug.Log(list.Count);
-        sounds = list.ToArray();
-        isListSeted = true;
         defineSource();
+
     }
 
 
-    void defineSource(){
+
+
+
+    public static bool isListSeted=false;
+ 
+
+    void defineSource()
+    {
         foreach (Sound s in sounds)
         {
             s.source = gameObject.AddComponent<AudioSource>();
             s.source.clip = s.clip;
             s.source.volume = s.volume;
         }
-    }
-    private void Awake()
-    {
-        SetSoundList();
-        
     }
 
     public static Sound GetSong(string name)

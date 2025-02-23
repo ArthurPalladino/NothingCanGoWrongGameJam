@@ -106,9 +106,7 @@ public class NoteCollider : MonoBehaviour
                 
                 note = null;
                 hasNote = false;
-                if(NoteSpawner.remainingNotes<=0 && CortinasController.Opened){
-                    CortinasController.AbrirCortinas();
-                }
+
             }
             else if(holdTimer > 0.25f)
             {

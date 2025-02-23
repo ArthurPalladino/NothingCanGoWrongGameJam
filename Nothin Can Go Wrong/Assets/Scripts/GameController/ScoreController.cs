@@ -1,10 +1,7 @@
 using DG.Tweening;
 using System;
-using System.Collections;
 using TMPro;
-using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class ScoreController : MonoBehaviour
 {
@@ -69,34 +66,36 @@ public class ScoreController : MonoBehaviour
         }
     }
 
-    public static double HandleShortNotes(float distance){
-        if (float.IsNaN(distance)) distance = 0;
+    public static double HandleShortNotes(float distance)
+    {
+        if (float.IsNaN(distance) || float.IsInfinity(distance)) distance = 0;
 
-        if (distance <= 0.1) 
+        if (distance <= 0.1)
         {
-            curScore+=1;
+            curScore += 1;
         }
-        else if (distance <= 0.3) 
+        else if (distance <= 0.3)
         {
-            curScore+=0.85;
+            curScore += 0.85;
         }
-        else if (distance < 2) 
+        else if (distance < 2)
         {
-            curScore+=0.65;
+            curScore += 0.65;
         }
-        double percentage=curScore/curSound.notesCount*100;
-        percentage=Convert.ToDouble(Math.Round((float)percentage, 2)) ;
+        double percentage = curScore / curSound.notesCount * 100;
+        percentage = Convert.ToDouble(Math.Round((float)percentage, 2));
         SetFinalScore(percentage);
         SetFinalDescription();
         return percentage;
     }
 
-    public static double HandleLongNotes(double distance){
-        if (double.IsNaN(distance)) distance = 0;
-        
-        curScore+=distance;
+    public static double HandleLongNotes(double distance)
+    {
+        if (double.IsNaN(distance) || double.IsInfinity(distance)) distance = 0;
 
-        var perce= curScore / curSound.notesCount * 100;
+        curScore += distance;
+
+        var perce = curScore / curSound.notesCount * 100;
         return Convert.ToDouble(Math.Round((float)perce, 2));
 
     }

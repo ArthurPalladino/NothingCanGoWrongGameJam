@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class PlayOption : MonoBehaviour
 {
     [SerializeField] Image optionSprite;
@@ -27,9 +28,10 @@ public class PlayOption : MonoBehaviour
         if(SubmitAndHandleOptions.Instance.isPlayingMusic){
             SoundManager.Stop(SubmitAndHandleOptions.Instance.curMusic.name);
             SubmitAndHandleOptions.Instance.isPlayingMusic=false;
+            #nullable enable
             SubmitAndHandleOptions.Instance.curMusic=null;
         }
-        if(toRight){
+        if (toRight){
             curOption++;
         }
         else{
