@@ -158,7 +158,7 @@ public class ScoreController : MonoBehaviour
         }
         else
         {
-            sequence.Append(scoreGameO.transform.DOLocalMoveY(scoreGOriginalPos.y, 2f));
+            sequence.Append(scoreGameO.transform.DOLocalMoveY(-600, 2f));
             isScoreOnScreen = false;
             sequence.onComplete = backToMenu;
                 

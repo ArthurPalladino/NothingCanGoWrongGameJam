@@ -74,7 +74,10 @@ public class SoundManager : MonoBehaviour
 
     public static Sound GetSong(string name)
     {   
-        return Array.Find(sounds, sound => sound.name == name);
+        var s=Array.Find(sounds, sound => sound.name == name);
+        s.volume = AudioController.GetGameVolume();
+        s.source.volume = AudioController.GetGameVolume();
+        return s;
 
     }
 
@@ -82,6 +85,7 @@ public class SoundManager : MonoBehaviour
     public static void Play(string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
+        s.source.volume=AudioController.GetGameVolume();
         s.source.Play();
         
     }

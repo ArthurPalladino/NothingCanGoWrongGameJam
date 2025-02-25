@@ -14,16 +14,24 @@ public class DialogSystem : MonoBehaviour
 
     public bool isTalking;
     [SerializeField] GameObject dialogGO;
+
+    [SerializeField] AudioSource dialogSound;
+
     public static DialogSystem Instance{get;private set;}
     void Awake()
     {
-        Instance=this;   
+        Instance=this;
+       
     }
+
     public void SetSprite(Sprite sprite){
         charSprite.sprite=sprite;
     }
     public IEnumerator TypeDialog(string dialog){
-        isTalking=true;
+
+        dialogSound.volume = AudioController.GetDialogVolume();
+        dialogSound.Play(); 
+        isTalking =true;
         dialogText.text="";
         bool isSpecialChar=false;
         foreach(var letter in dialog.ToCharArray()){
@@ -37,7 +45,8 @@ public class DialogSystem : MonoBehaviour
             yield return new WaitForSeconds(1f/letterPerSecond);
             }
         }
-        isTalking=false;
+        dialogSound.Pause();
+        isTalking =false;
     } 
     public void SetActive(bool active){
         dialogGO.SetActive(active);

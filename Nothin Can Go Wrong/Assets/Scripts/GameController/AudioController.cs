@@ -3,12 +3,23 @@ using UnityEngine.UI;
 
 public class AudioController : MonoBehaviour
 {
-    [SerializeField] public static double audioVolume=100f;
+    public static float audioVolume=0.5f;
+    public static float dialogVolume = 0.7f;
 
-    public static double GetGameVolume(){
+
+    public static float GetGameVolume(){
         return audioVolume;
     }
     public void SetGameVolume(float value){
         audioVolume=value;
+    }
+
+    public static float GetDialogVolume()
+    {
+        return dialogVolume;
+    }
+    public void SetDialogVolume(float value)
+    {
+        dialogVolume = value;
     }
 }
